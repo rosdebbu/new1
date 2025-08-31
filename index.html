@@ -1,1674 +1,1890 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LocalAlert Pro - SRMIST Potheri</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalAlert Pro - SRMIST Potheri</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
 
-<script>
-tailwind.config = {
-theme: {
-extend: {
-fontFamily: {
-'sans': ['Inter', 'system-ui', 'sans-serif']
-},
-animation: {
-'float': 'float 3s ease-in-out infinite',
-'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-'bounce-slow': 'bounce 2s infinite',
-'spin-slow': 'spin 3s linear infinite'
-}
-}
-}
-}
-</script>
+        /* Header Styles */
+        .header {
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
 
-<style>
-:root {
---gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
---gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
---shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-}
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
 
-* {
-scroll-behavior: smooth;
-}
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
 
-body {
-font-family: 'Inter', system-ui, -apple-system, sans-serif;
-line-height: 1.7;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
-}
+        .logo-icon {
+            background: #4f46e5;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
 
-.gradient-primary {
-background: var(--gradient-primary);
-}
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: -2px;
+        }
 
-.gradient-text {
-background: var(--gradient-primary);
--webkit-background-clip: text;
-background-clip: text;
-color: transparent;
-font-weight: 800;
-}
+        .logo-text p {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
 
-.card-enhanced {
-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-transform-origin: center;
-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-transform-style: preserve-3d; /* Added for 3D hover effects */
-}
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
 
-.card-enhanced:hover {
-transform: translateY(-8px) scale(1.02) rotateY(3deg); /* Enhanced 3D hover */
-box-shadow: var(--shadow-xl);
-}
+        .weather {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6b7280;
+        }
 
-@keyframes float {
-0%, 100% { transform: translateY(0px); }
-50% { transform: translateY(-10px); }
-}
+        .weather i {
+            color: #fbbf24;
+        }
 
-.pulse-enhanced {
-animation: pulse-enhanced 2s infinite;
-}
+        .notification {
+            position: relative;
+            color: #6b7280;
+            font-size: 1.2rem;
+        }
 
-@keyframes pulse-enhanced {
-0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-70% { box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); }
-100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
-}
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.glass {
-backdrop-filter: blur(20px);
-background: rgba(255, 255, 255, 0.1);
-border: 1px solid rgba(255, 255, 255, 0.2);
-}
+        .profile-avatar {
+            background: #ec4899;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
 
-.map-marker-enhanced {
-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-cursor: pointer;
-}
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+            padding: 140px 2rem 80px;
+            text-align: center;
+            color: white;
+        }
 
-.location-tooltip {
-position: absolute;
-bottom: 100%;
-left: 50%;
-transform: translateX(-50%);
-background: rgba(0, 0, 0, 0.9);
-color: white;
-padding: 8px 12px;
-border-radius: 8px;
-font-size: 12px;
-white-space: nowrap;
-opacity: 0;
-pointer-events: none;
-transition: opacity 0.3s;
-z-index: 20;
-}
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-.location-tooltip::after {
-content: '';
-position: absolute;
-top: 100%;
-left: 50%;
-transform: translateX(-50%);
-border: 5px solid transparent;
-border-top-color: rgba(0, 0, 0, 0.9);
-}
+        .compass-icon {
+            background: white;
+            color: #6366f1;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 2rem;
+        }
 
-.map-marker-enhanced:hover .location-tooltip {
-opacity: 1;
-}
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
 
-.category-filter-btn.active {
-transform: scale(1.05);
-box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.3);
-}
+        .text-yellow {
+            color: #fbbf24;
+        }
 
-.modal-backdrop {
-backdrop-filter: blur(4px);
-}
+        .text-pink {
+            color: #f472b6;
+        }
 
-@keyframes slideIn {
-from { opacity: 0; transform: translateY(20px); }
-to { opacity: 1; transform: translateY(0); }
-}
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
 
-.modal-content {
-animation: slideIn 0.3s ease-out;
-}
+        .search-container {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50px;
+            padding: 0.5rem;
+            backdrop-filter: blur(10px);
+        }
 
-/* Image-specific styles */
-.campus-photo-card img {
-transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 1rem 1.5rem;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
 
-.campus-photo-card:hover img {
-transform: scale(1.1);
-}
+        .search-input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
 
-.fade-in {
-animation: fadeInImage 0.8s ease-out;
-}
+        .search-btn {
+            background: #06b6d4;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-@keyframes fadeInImage {
-from { opacity: 0; transform: translateY(20px); }
-to { opacity: 1; transform: translateY(0); }
-}
+        .search-btn:hover {
+            background: #0891b2;
+            transform: scale(1.05);
+        }
 
-/* Image modal styles */
-#image-modal img {
-transition: all 0.3s ease-out;
-max-height: 80vh;
-}
+        /* Categories Section */
+        .categories {
+            background: white;
+            padding: 2rem;
+            margin-top: -40px;
+            position: relative;
+            z-index: 10;
+        }
 
-.facility-image {
-transition: all 0.5s ease;
-}
+        .category-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
 
-.facility-card:hover .facility-image {
-transform: scale(1.05);
-}
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
 
-.event-image {
-position: relative;
-overflow: hidden;
-}
+        .category-item:hover {
+            transform: translateY(-5px);
+        }
 
-.event-image img {
-transition: transform 0.5s ease;
-}
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
 
-.event-card:hover .event-image img {
-transform: scale(1.1);
-}
+        .category-icon.blue { background: #3b82f6; }
+        .category-icon.green { background: #10b981; }
+        .category-icon.orange { background: #f97316; }
+        .category-icon.yellow { background: #eab308; }
+        .category-icon.red { background: #ef4444; }
+        .category-icon.purple { background: #8b5cf6; }
+        .category-icon.blue-dark { background: #1e40af; }
+        .category-icon.teal { background: #14b8a6; }
 
-/* === NEW: 3D Map Styles === */
-.map-container-3d {
-    perspective: 1200px; /* This creates the 3D scene */
-    padding: 20px;
-    background: #f0f4ff;
-    border-radius: 1.5rem;
-}
+        .category-item span {
+            font-weight: 500;
+            color: #374151;
+        }
 
-#campus-map-tilt {
-    position: relative;
-    height: 500px;
-    transform-style: preserve-3d; /* Ensures children respect the 3D space */
-    transform: rotateX(55deg) rotateZ(-45deg); /* The 3D tilt! */
-    transition: transform 0.5s ease;
-}
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
 
-#campus-map-tilt:hover {
-    transform: rotateX(50deg) rotateZ(-45deg) scale(1.02); /* Subtle hover effect */
-}
+        .section-icon {
+            background: #f3f4f6;
+            color: #8b5cf6;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
 
-/* Make markers stand up from the map */
-.map-marker-enhanced {
-    transform: translateZ(20px) rotateZ(45deg) rotateX(-55deg); /* Counter-rotate to stand upright */
-}
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
 
-.map-marker-enhanced:hover {
-    transform: translateZ(50px) rotateZ(45deg) rotateX(-55deg) scale(1.5); /* Pop up further on hover */
-    z-index: 10;
-}
+        .section-subtitle {
+            text-align: center;
+            color: #6b7280;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
 
-</style>
+        /* Gallery Section */
+        .gallery-section {
+            padding: 4rem 2rem;
+            background: white;
+        }
+
+        .gallery-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+            height: 300px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-image.campus-building {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('https://images.unsplash.com/photo-1562774053-701939374585?w=400&h=300&fit=crop') center/cover;
+        }
+
+        .gallery-image.library {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop') center/cover;
+        }
+
+        .gallery-image.tech-park {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('https://images.unsplash.com/photo-1531482615713-2afd69097998?w=400&h=300&fit=crop') center/cover;
+        }
+
+        .gallery-image.sports {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop') center/cover;
+        }
+
+        .gallery-image.hostels {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=400&h=300&fit=crop') center/cover;
+        }
+
+        .gallery-image.auditorium {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop') center/cover;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 1.5rem 1rem 1rem;
+        }
+
+        .gallery-overlay h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .gallery-overlay p {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        /* Facilities Section - FIXED */
+        .facilities-section {
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .facilities-grid {
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .facilities-grid-2 {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .facility-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .facility-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Fixed Facility Images with Real Photos */
+        .facility-image {
+            height: 160px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 1.5rem;
+        }
+
+        .facility-image.transport-bg {
+            background: linear-gradient(135deg, rgba(59,130,246,0.9), rgba(30,64,175,0.9)), 
+                        url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=400&h=200&fit=crop') center/cover;
+        }
+
+        .facility-image.dining-bg {
+            background: linear-gradient(135deg, rgba(16,185,129,0.9), rgba(5,150,105,0.9)), 
+                        url('https://images.unsplash.com/photo-1567521464027-f127ff144326?w=400&h=200&fit=crop') center/cover;
+        }
+
+        .facility-image.services-bg {
+            background: linear-gradient(135deg, rgba(249,115,22,0.9), rgba(234,88,12,0.9)), 
+                        url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=200&fit=crop') center/cover;
+        }
+
+        .facility-image.health-bg {
+            background: linear-gradient(135deg, rgba(239,68,68,0.8), rgba(220,38,38,0.8)), 
+                        url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&h=200&fit=crop') center/cover;
+        }
+
+        .facility-image.fitness-bg {
+            background: linear-gradient(135deg, rgba(234,179,8,0.9), rgba(217,119,6,0.9)), 
+                        url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=200&fit=crop') center/cover;
+        }
+
+        .facility-image.housing-bg {
+            background: linear-gradient(135deg, rgba(139,92,246,0.9), rgba(124,58,237,0.9)), 
+                        url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=200&fit=crop') center/cover;
+        }
+
+        .facility-image h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .facility-image p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1rem;
+        }
+
+        .facility-content {
+            padding: 1.5rem;
+        }
+
+        .facility-details {
+            margin-top: 0;
+        }
+
+        .detail-item {
+            margin-bottom: 1rem;
+        }
+
+        .detail-item h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-item > p {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.75rem;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .status.arriving {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status.open {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status.open-till {
+            background: #fed7aa;
+            color: #9a3412;
+        }
+
+        .status.open-purple {
+            background: #e9d5ff;
+            color: #6b21a8;
+        }
+
+        .emergency-number {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        .detail-info {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .detail-info p {
+            font-size: 0.875rem;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Map Section */
+        .map-section {
+            padding: 4rem 2rem;
+            background: white;
+        }
+
+        .map-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            height: 500px;
+        }
+
+        .map-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            border-color: #6366f1;
+            box-shadow: 0 4px 12px rgba(99,102,241,0.15);
+        }
+
+        .filter-btn i {
+            font-size: 1.25rem;
+            width: 20px;
+        }
+
+        .filter-btn[data-category="transportation"] i { color: #3b82f6; }
+        .filter-btn[data-category="food"] i { color: #f97316; }
+        .filter-btn[data-category="shops"] i { color: #10b981; }
+        .filter-btn[data-category="gym"] i { color: #eab308; }
+        .filter-btn[data-category="health"] i { color: #ef4444; }
+        .filter-btn[data-category="housing"] i { color: #8b5cf6; }
+
+        .filter-title {
+            font-weight: 600;
+            color: #1f2937;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .filter-subtitle {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .map-display {
+            position: relative;
+            background: #f3f4f6;
+            border-radius: 12px;
+            overflow: hidden;
+            background-image: url('https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=800&h=500&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .map-controls {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .map-control {
+            background: white;
+            border: 1px solid #d1d5db;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .map-control:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        .map-marker {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .map-marker:hover {
+            transform: scale(1.2);
+        }
+
+        .map-marker.blue { background: #3b82f6; }
+        .map-marker.orange { background: #f97316; }
+        .map-marker.green { background: #10b981; }
+        .map-marker.red { background: #ef4444; }
+        .map-marker.purple { background: #8b5cf6; }
+        .map-marker.yellow { background: #eab308; }
+
+        .map-attribution {
+            position: absolute;
+            bottom: 0.5rem;
+            right: 0.5rem;
+            font-size: 0.75rem;
+            color: #6b7280;
+            background: rgba(255,255,255,0.9);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        /* Events Section */
+        .events-section {
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .events-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+            height: 300px;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .event-card.aaruush {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+        }
+
+        .event-card.milan {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+        }
+
+        .event-card.sports {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .event-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .event-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .event-overlay h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .event-details {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1.5rem;
+        }
+
+        .event-details h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .event-details p {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .event-btn {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .event-btn.blue {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .event-btn.pink {
+            background: #ec4899;
+            color: white;
+        }
+
+        .event-btn.green {
+            background: #10b981;
+            color: white;
+        }
+
+        .event-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Upcoming Events */
+        .upcoming-events {
+            padding: 4rem 2rem;
+            background: white;
+        }
+
+        .events-list {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .event-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
+            gap: 1rem;
+        }
+
+        .event-item:last-child {
+            border-bottom: none;
+        }
+
+        .event-icon-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .event-icon-circle.blue { background: #3b82f6; }
+        .event-icon-circle.purple { background: #8b5cf6; }
+        .event-icon-circle.green { background: #10b981; }
+
+        .event-info {
+            flex: 1;
+        }
+
+        .event-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+        }
+
+        .event-info > p {
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .event-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .join-btn, .view-btn, .register-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .join-btn {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .view-btn {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        .register-btn {
+            background: #10b981;
+            color: white;
+        }
+
+        /* News Section */
+        .news-section {
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .news-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+        }
+
+        .featured-news {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .news-image {
+            height: 300px;
+            position: relative;
+        }
+
+        .research-bg {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=300&fit=crop') center/cover;
+        }
+
+        .news-content {
+            padding: 2rem;
+        }
+
+        .news-tag {
+            background: #3b82f6;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+        }
+
+        .news-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .news-meta {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .read-more {
+            color: #3b82f6;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: #1e40af;
+        }
+
+        .recent-stories h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+        }
+
+        .story-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .story-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .story-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .milan-story {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+        }
+
+        .cricket-story {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .rover-story {
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
+        }
+
+        .story-content {
+            flex: 1;
+        }
+
+        .story-tag {
+            background: #f3f4f6;
+            color: #6366f1;
+            padding: 0.125rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .story-tag.sports {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .story-tag.achievements {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .story-content h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .story-date {
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1f2937;
+            color: white;
+            padding: 3rem 2rem 1rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo i {
+            color: #3b82f6;
+        }
+
+        .footer-section p {
+            color: #d1d5db;
+            line-height: 1.6;
+        }
+
+        .footer-section h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #d1d5db;
+            font-size: 0.875rem;
+        }
+
+        .emergency-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sos-badge {
+            background: #ef4444;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid #374151;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        .footer-bottom p:first-child {
+            margin-bottom: 0.5rem;
+        }
+
+        .heart {
+            color: #ef4444;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .category-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+                height: auto;
+            }
+            
+            .gallery-item {
+                height: 200px;
+            }
+            
+            .facilities-grid,
+            .facilities-grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .map-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            
+            .map-display {
+                height: 400px;
+            }
+            
+            .news-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .nav-container {
+                padding: 0 1rem;
+            }
+            
+            .header-right {
+                gap: 1rem;
+            }
+            
+            .weather span {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 120px 1rem 60px;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .event-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+        }
+    </style>
 </head>
-
-<body class="bg-gradient-to-br from-slate-50 to-blue-50 font-sans antialiased">
-<div id="loading-screen" class="fixed inset-0 bg-gradient-to-br from-blue-600 to-purple-700 flex items-center justify-center z-50">
-<div class="text-center">
-<div class="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-<h2 class="text-white text-xl font-bold">Loading LocalAlert Pro...</h2>
-</div>
-</div>
-
-<header class="gradient-primary text-white shadow-2xl sticky top-0 z-30">
-<div class="container mx-auto px-6 py-5">
-<div class="flex justify-between items-center">
-<div class="flex items-center space-x-4">
-<div class="bg-white rounded-full p-3 shadow-lg">
-<i class="fas fa-graduation-cap text-blue-600 text-2xl"></i>
-</div>
-<div>
-<h1 class="text-2xl font-bold tracking-tight">LocalAlert Pro</h1>
-<p class="text-sm opacity-90 font-medium">SRMIST Potheri • Smart Campus</p>
-</div>
-</div>
-
-<div class="flex items-center space-x-6">
-<div id="weather-widget" class="hidden md:flex items-center space-x-3 glass rounded-lg px-4 py-2">
-<i class="fas fa-sun text-yellow-300 animate-pulse"></i>
-<div class="text-sm">
-<div class="font-semibold">28°C</div>
-<div class="opacity-80">Sunny</div>
-</div>
-</div>
-
-<button class="relative p-2 hover:bg-white/10 rounded-full transition-colors">
-<i class="fas fa-bell text-xl"></i>
-<span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-xs rounded-full flex items-center justify-center animate-pulse">3</span>
-</button>
-
-<div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center">
-<span class="text-white font-bold text-sm">DD</span>
-</div>
-</div>
-</div>
-</div>
-</header>
-
-<section class="gradient-primary text-white pt-12 pb-16 relative overflow-hidden hero-section-class">
-    <div class="absolute inset-0 opacity-10">
-        <div class="absolute top-20 left-10 w-32 h-32 bg-white rounded-full animate-bounce-slow hero-bg-element" data-speed="0.3"></div>
-        <div class="absolute top-40 right-20 w-24 h-24 bg-white rounded-full animate-float hero-bg-element" data-speed="0.5"></div>
-    </div>
-
-<div class="container mx-auto px-6 relative z-10">
-<div class="max-w-4xl mx-auto text-center">
-<div class="bg-white rounded-full p-6 w-40 h-40 mx-auto mb-8 flex items-center justify-center shadow-2xl animate-float">
-<i class="fas fa-compass text-blue-600 text-6xl"></i>
-</div>
-
-<h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-Your <span class="gradient-text bg-gradient-to-r from-yellow-300 to-pink-300">Smart Campus</span> Companion
-</h1>
-<p class="text-xl md:text-2xl mb-8 opacity-90 max-w-2xl mx-auto">
-Navigate SRMIST Potheri with AI-powered assistance and real-time updates
-</p>
-
-<div class="relative max-w-2xl mx-auto">
-<div class="glass rounded-2xl p-2">
-<div class="flex items-center">
-<input type="text" id="main-search" placeholder="🔍 Search campus facilities..."
-class="flex-1 bg-transparent border-0 text-white placeholder-white/70 px-6 py-4 text-lg focus:outline-none">
-<button class="bg-gradient-to-r from-blue-500 to-purple-600 px-8 py-4 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg">
-<i class="fas fa-search text-lg"></i>
-</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-
-<div class="container mx-auto px-6 -mt-12 mb-12 relative z-20">
-<div class="bg-white rounded-2xl shadow-2xl p-6">
-<div class="grid grid-cols-4 md:grid-cols-8 gap-4">
-<button class="quick-access-btn flex flex-col items-center p-4 rounded-xl hover:bg-blue-50 transition-all duration-300 group">
-<div class="bg-blue-500 rounded-full p-3 mb-2 group-hover:scale-110 transition-transform">
-<i class="fas fa-bus text-white text-lg"></i>
-</div>
-<span class="text-xs font-medium text-gray-700">Transport</span>
-</button>
-
-<button class="quick-access-btn flex flex-col items-center p-4 rounded-xl hover:bg-green-50 transition-all duration-300 group">
-<div class="bg-green-500 rounded-full p-3 mb-2 group-hover:scale-110 transition-transform">
-<i class="fas fa-utensils text-white text-lg"></i>
-</div>
-<span class="text-xs font-medium text-gray-700">Food</span>
-</button>
-
-<button class="quick-access-btn flex flex-col items-center p-4 rounded-xl hover:bg-amber-50 transition-all duration-300 group">
-<div class="bg-amber-500 rounded-full p-3 mb-2 group-hover:scale-110 transition-transform">
-<i class="fas fa-shopping-bag text-white text-lg"></i>
-</div>
-<span class="text-xs font-medium text-gray-700">Shops</span>
-</button>
-
-<button class="quick-access-btn flex flex-col items-center p-4 rounded-xl hover:bg-orange-50 transition-all duration-300 group">
-<div class="bg-orange-500 rounded-full p-3 mb-2 group-hover:scale-110 transition-transform">
-<i class="fas fa-dumbbell text-white text-lg"></i>
-</div>
-<span class="text-xs font-medium text-gray-700">Gym</span>
-</button>
-
-<button class="quick-access-btn flex flex-col items-center p-4 rounded-xl hover:bg-red-50 transition-all duration-300 group">
-<div class="bg-red-500 rounded-full p-3 mb-2 group-hover:scale-110 transition-transform">
-<i class="fas fa-heartbeat text-white text-lg"></i>
-</div>
-<span class="text-xs font-medium text-gray-700">Health</span>
-</button>
-
-<button class="quick-access-btn flex flex-col items-center p-4 rounded-xl hover:bg-purple-50 transition-all duration-300 group">
-<div class="bg-purple-500 rounded-full p-3 mb-2 group-hover:scale-110 transition-transform">
-<i class="fas fa-home text-white text-lg"></i>
-</div>
-<span class="text-xs font-medium text-gray-700">Housing</span>
-</button>
-
-<button class="quick-access-btn flex flex-col items-center p-4 rounded-xl hover:bg-indigo-50 transition-all duration-300 group">
-<div class="bg-indigo-500 rounded-full p-3 mb-2 group-hover:scale-110 transition-transform">
-<i class="fas fa-book text-white text-lg"></i>
-</div>
-<span class="text-xs font-medium text-gray-700">Library</span>
-</button>
-
-<button class="quick-access-btn flex flex-col items-center p-4 rounded-xl hover:bg-teal-50 transition-all duration-300 group">
-<div class="bg-teal-500 rounded-full p-3 mb-2 group-hover:scale-110 transition-transform">
-<i class="fas fa-calendar text-white text-lg"></i>
-</div>
-<span class="text-xs font-medium text-gray-700">Events</span>
-</button>
-</div>
-</div>
-</div>
-
-<section class="container mx-auto px-6 mb-16">
-<div class="text-center mb-12">
-<h2 class="text-4xl font-bold gradient-text mb-4">📸 Campus Gallery</h2>
-<p class="text-xl text-gray-600 max-w-2xl mx-auto">Explore SRMIST Potheri through stunning visuals</p>
-</div>
-
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-<div class="campus-photo-card bg-white rounded-2xl overflow-hidden shadow-xl card-enhanced cursor-pointer" onclick="openImageModal('campus1')">
-<div class="relative h-64 overflow-hidden">
-<img src="https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" 
-alt="SRMIST Main Campus" 
-class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-loading="lazy">
-<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-<div class="absolute bottom-4 left-4 right-4 text-white">
-<h3 class="text-lg font-bold">Main Campus Building</h3>
-<p class="text-sm opacity-90">Administrative Block</p>
-</div>
-</div>
-</div>
-
-<div class="campus-photo-card bg-white rounded-2xl overflow-hidden shadow-xl card-enhanced cursor-pointer" onclick="openImageModal('campus2')">
-<div class="relative h-64 overflow-hidden">
-<img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" 
-alt="SRMIST Library" 
-class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-loading="lazy">
-<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-<div class="absolute bottom-4 left-4 right-4 text-white">
-<h3 class="text-lg font-bold">Central Library</h3>
-<p class="text-sm opacity-90">24/7 Study Space</p>
-</div>
-</div>
-</div>
-
-<div class="campus-photo-card bg-white rounded-2xl overflow-hidden shadow-xl card-enhanced cursor-pointer" onclick="openImageModal('campus3')">
-<div class="relative h-64 overflow-hidden">
-<img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" 
-alt="SRMIST Tech Park" 
-class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-loading="lazy">
-<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-<div class="absolute bottom-4 left-4 right-4 text-white">
-<h3 class="text-lg font-bold">SRM Tech Park</h3>
-<p class="text-sm opacity-90">Innovation Hub</p>
-</div>
-</div>
-</div>
-
-<div class="campus-photo-card bg-white rounded-2xl overflow-hidden shadow-xl card-enhanced cursor-pointer" onclick="openImageModal('campus4')">
-<div class="relative h-64 overflow-hidden">
-<img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" 
-alt="SRMIST Sports Complex" 
-class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-loading="lazy">
-<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-<div class="absolute bottom-4 left-4 right-4 text-white">
-<h3 class="text-lg font-bold">Sports Complex</h3>
-<p class="text-sm opacity-90">Fitness & Recreation</p>
-</div>
-</div>
-</div>
-
-<div class="campus-photo-card bg-white rounded-2xl overflow-hidden shadow-xl card-enhanced cursor-pointer" onclick="openImageModal('campus5')">
-<div class="relative h-64 overflow-hidden">
-<img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" 
-alt="SRMIST Hostel" 
-class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-loading="lazy">
-<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-<div class="absolute bottom-4 left-4 right-4 text-white">
-<h3 class="text-lg font-bold">Student Hostels</h3>
-<p class="text-sm opacity-90">Comfortable Living</p>
-</div>
-</div>
-</div>
-
-<div class="campus-photo-card bg-white rounded-2xl overflow-hidden shadow-xl card-enhanced cursor-pointer" onclick="openImageModal('campus6')">
-<div class="relative h-64 overflow-hidden">
-<img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" 
-alt="SRMIST Auditorium" 
-class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-loading="lazy">
-<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-<div class="absolute bottom-4 left-4 right-4 text-white">
-<h3 class="text-lg font-bold">TP Ganesan Auditorium</h3>
-<p class="text-sm opacity-90">Events & Conferences</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-
-<section class="container mx-auto px-6 mb-16">
-    <div class="text-center mb-12">
-        <h2 class="text-4xl font-bold gradient-text mb-4">🔬 Inside SRM Tech Park</h2>
-        <p class="text-xl text-gray-600 max-w-2xl mx-auto">Explore the state-of-the-art facilities and innovation hubs within the Tech Park. Click on a zone in the layout to learn more.</p>
-    </div>
-
-    <div class="bg-white rounded-3xl shadow-2xl p-8 flex flex-col lg:flex-row gap-8">
-        <div class="w-full lg:w-1/2">
-            <h3 class="font-bold text-xl text-gray-800 mb-4">Ground Floor Layout</h3>
-            <div id="tech-park-info-panel" class="bg-blue-50 rounded-xl p-4 mb-4 min-h-[100px] border border-blue-200">
-                <h4 id="info-title" class="font-bold text-blue-800">Welcome to the Tech Park!</h4>
-                <p id="info-description" class="text-blue-700 text-sm">Hover over or click a zone on the map to see its details here.</p>
-            </div>
-            
-            <svg id="floor-plan" viewBox="0 0 400 300" class="w-full h-auto rounded-lg border-2 border-gray-200 bg-slate-50">
-                <style>
-                    .room-shape { fill: #dbeafe; stroke: #60a5fa; stroke-width: 1.5; transition: all 0.2s ease-in-out; cursor: pointer; }
-                    .room-shape:hover, .room-shape.active { fill: #60a5fa; transform: translateY(-2px); }
-                    .room-text { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; fill: #1e3a8a; pointer-events: none; }
-                </style>
-                
-                <g class="room-group" data-zone="lobby" data-title="Main Lobby & Reception" data-description="The central entry point with help desk, seating areas, and digital information kiosks.">
-                    <path class="room-shape" d="M 0 0 H 150 V 100 H 0 Z"></path>
-                    <text class="room-text" x="75" y="55" text-anchor="middle">Lobby</text>
-                </g>
-                
-                <g class="room-group" data-zone="coworking" data-title="Innovation Co-working Space" data-description="A flexible, open-plan space for students to collaborate on projects, with high-speed Wi-Fi and power outlets.">
-                    <path class="room-shape" d="M 150 0 H 400 V 150 H 150 Z"></path>
-                    <text class="room-text" x="275" y="80" text-anchor="middle">Co-working Space</text>
-                </g>
-
-                <g class="room-group" data-zone="robotics" data-title="AI & Robotics Lab" data-description="Equipped with high-performance computing clusters, robotic arms, and sensor kits for cutting-edge AI research.">
-                    <path class="room-shape" d="M 0 100 H 150 V 300 H 0 Z"></path>
-                    <text class="room-text" x="75" y="205" text-anchor="middle">AI & Robotics Lab</text>
-                </g>
-                
-                <g class="room-group" data-zone="conference" data-title="Main Conference Hall" data-description="A 100-seater hall with advanced audio-visual systems for seminars, workshops, and guest lectures.">
-                    <path class="room-shape" d="M 150 150 H 400 V 300 H 150 Z"></path>
-                    <text class="room-text" x="275" y="230" text-anchor="middle">Conference Hall</text>
-                </g>
-            </svg>
-        </div>
-
-        <div class="w-full lg:w-1/2 flex flex-col">
-            <div id="tech-park-3d-explorer">
-                <h3 class="font-bold text-xl text-gray-800 mb-4">3D Building Explorer</h3>
-                <div class="flex-grow bg-gradient-to-br from-slate-200 to-blue-200 rounded-xl flex items-center justify-center p-4 min-h-[400px]">
-                     <div class="text-center text-gray-600">
-                        <p class="font-semibold mb-2">3D Model Coming Soon!</p>
-                        <p class="text-sm">This area will feature an interactive 3D model of the Tech Park. You can rotate, zoom, and explore the building virtually.</p>
-                        <i class="fas fa-cube text-5xl text-blue-400 mt-4 animate-spin-slow"></i>
-                     </div>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>LocalAlert Pro</h1>
+                    <p>SRMIST Potheri • Smart Campus</p>
                 </div>
             </div>
-
-            <div id="tech-park-zone-details" class="hidden">
-                <h3 id="zone-details-title" class="font-bold text-xl text-gray-800 mb-4">Zone Details</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                    <div class="campus-photo-card bg-white rounded-2xl overflow-hidden shadow-xl card-enhanced cursor-pointer">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Collaborative Zones" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                            <div class="absolute bottom-4 left-4 right-4 text-white">
-                                <h3 class="text-lg font-bold">Collaborative Zones</h3>
-                                <p class="text-sm opacity-90">Open areas for teamwork</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="campus-photo-card bg-white rounded-2xl overflow-hidden shadow-xl card-enhanced cursor-pointer">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Ideation Rooms" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                            <div class="absolute bottom-4 left-4 right-4 text-white">
-                                <h3 class="text-lg font-bold">Ideation Rooms</h3>
-                                <p class="text-sm opacity-90">Private spaces for brainstorming</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="campus-photo-card bg-white rounded-2xl overflow-hidden shadow-xl card-enhanced cursor-pointer">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1581092334651-dd395019236b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Prototyping Lab" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                            <div class="absolute bottom-4 left-4 right-4 text-white">
-                                <h3 class="text-lg font-bold">Prototyping Lab</h3>
-                                <p class="text-sm opacity-90">3D printers and tools</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="campus-photo-card bg-white rounded-2xl overflow-hidden shadow-xl card-enhanced cursor-pointer">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Mentorship Corner" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                            <div class="absolute bottom-4 left-4 right-4 text-white">
-                                <h3 class="text-lg font-bold">Mentorship Corner</h3>
-                                <p class="text-sm opacity-90">Connect with industry experts</p>
-                            </div>
-                        </div>
-                    </div>
-
+            <div class="header-right">
+                <div class="weather">
+                    <i class="fas fa-sun"></i>
+                    <span>28°C Sunny</span>
+                </div>
+                <div class="notification">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">9</span>
+                </div>
+                <div class="profile">
+                    <span class="profile-avatar">DD</span>
                 </div>
             </div>
-
         </div>
-    </div>
-</section>
-<section class="container mx-auto px-6 mb-16">
-<div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
-<div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8">
-<div class="flex flex-col md:flex-row md:items-center md:justify-between">
-<div class="mb-4 md:mb-0">
-<h2 class="text-3xl font-bold mb-2 flex items-center">
-<i class="fas fa-map-marked-alt mr-3"></i>
-Interactive SRMIST Potheri Map
-</h2>
-<p class="text-blue-100">Click category buttons to explore exact locations with Google Maps directions</p>
-</div>
-<div class="flex items-center space-x-4">
-<button id="my-location-btn" class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg hover:bg-white/30 transition">
-<i class="fas fa-location-arrow mr-2"></i>My Location
-</button>
-<button onclick="window.open('https://maps.google.com/maps?q=SRMIST+Potheri+Chennai', '_blank')"
-class="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-gray-100 transition font-medium">
-<i class="fas fa-external-link-alt mr-2"></i>Google Maps
-</button>
-</div>
-</div>
-</div>
+    </header>
 
-<div class="p-8">
-<div class="mb-8">
-<h3 class="font-bold text-gray-800 mb-4 text-lg">🎯 Explore Campus Facilities</h3>
-<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-<button class="category-filter-btn active bg-blue-500 text-white p-4 rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg" data-category="transportation">
-<div class="text-center">
-<i class="fas fa-bus text-2xl mb-2"></i>
-<div class="font-semibold text-sm">Transportation</div>
-<div class="text-xs opacity-80">Buses & Autos</div>
-</div>
-</button>
-
-<button class="category-filter-btn bg-green-500 text-white p-4 rounded-xl hover:bg-green-600 transition-all duration-300 transform hover:scale-105 shadow-lg" data-category="food">
-<div class="text-center">
-<i class="fas fa-utensils text-2xl mb-2"></i>
-<div class="font-semibold text-sm">Food & Dining</div>
-<div class="text-xs opacity-80">Mess & Cafés</div>
-</div>
-</button>
-
-<button class="category-filter-btn bg-amber-500 text-white p-4 rounded-xl hover:bg-amber-600 transition-all duration-300 transform hover:scale-105 shadow-lg" data-category="shops">
-<div class="text-center">
-<i class="fas fa-shopping-bag text-2xl mb-2"></i>
-<div class="font-semibold text-sm">Shops & Services</div>
-<div class="text-xs opacity-80">Xerox & Stationery</div>
-</div>
-</button>
-
-<button class="category-filter-btn bg-orange-500 text-white p-4 rounded-xl hover:bg-orange-600 transition-all duration-300 transform hover:scale-105 shadow-lg" data-category="gym">
-<div class="text-center">
-<i class="fas fa-dumbbell text-2xl mb-2"></i>
-<div class="font-semibold text-sm">Gyms & Fitness</div>
-<div class="text-xs opacity-80">On & Off Campus</div>
-</div>
-</button>
-
-<button class="category-filter-btn bg-red-500 text-white p-4 rounded-xl hover:bg-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg" data-category="health">
-<div class="text-center">
-<i class="fas fa-heartbeat text-2xl mb-2"></i>
-<div class="font-semibold text-sm">Health & Safety</div>
-<div class="text-xs opacity-80">Hospital & Emergency</div>
-</div>
-</button>
-
-<button class="category-filter-btn bg-purple-500 text-white p-4 rounded-xl hover:bg-purple-600 transition-all duration-300 transform hover:scale-105 shadow-lg" data-category="housing">
-<div class="text-center">
-<i class="fas fa-home text-2xl mb-2"></i>
-<div class="font-semibold text-sm">Housing</div>
-<div class="text-xs opacity-80">Hostels & PGs</div>
-</div>
-</button>
-</div>
-</div>
-
-<div class="map-container-3d">
-    <div id="campus-map-tilt">
-        <div class="absolute inset-0 bg-cover bg-center opacity-20"
-        style="background-image: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 600\" fill=\"none\"><rect width=\"800\" height=\"600\" fill=\"%23f0f9ff\"/><circle cx=\"400\" cy=\"300\" r=\"200\" fill=\"%23dbeafe\" opacity=\"0.5\"/><rect x=\"200\" y=\"150\" width=\"400\" height=\"300\" rx=\"20\" fill=\"%23bfdbfe\" opacity=\"0.3\"/></svg>')"></div>
-
-        <div class="absolute inset-4">
-            <div class="absolute top-1/4 left-1/3 w-32 h-20 bg-blue-200 rounded-lg opacity-60 flex items-center justify-center text-xs font-bold text-blue-800">
-            Admin Block
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="compass-icon">
+                <i class="fas fa-compass"></i>
             </div>
-            <div class="absolute top-1/2 left-1/4 w-24 h-16 bg-green-200 rounded-lg opacity-60 flex items-center justify-center text-xs font-bold text-green-800">
-            Library
-            </div>
-            <div class="absolute bottom-1/3 right-1/4 w-28 h-18 bg-purple-200 rounded-lg opacity-60 flex items-center justify-center text-xs font-bold text-purple-800">
-            Tech Park
+            <h1 class="hero-title">
+                Your <span class="text-yellow">Campus</span> <span class="text-pink">Compass</span>
+            </h1>
+            <p class="hero-subtitle">
+                Navigate SRMIST Potheri with AI-powered assistance and real-time updates
+            </p>
+            <div class="search-container">
+                <input type="text" placeholder="Search campus facilities..." class="search-input">
+                <button class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
         </div>
+    </section>
 
-        <div id="campus-markers-container" class="absolute inset-0">
-            <div class="location-marker transportation-marker map-marker-enhanced absolute top-1/6 left-1/4 w-8 h-8 bg-blue-500 rounded-full shadow-lg cursor-pointer border-4 border-white"
-            data-location="Main Gate Bus Stop"
-            data-category="transportation"
-            data-coords="12.823237,80.041769"
-            data-details="Bus 500, 501 to Tambaram & Chennai | Auto Stand Available | Train Station 500m away"
-            data-timing="24/7 Available"
-            data-price="Bus: ₹25-50 | Auto: ₹100-150">
-            <i class="fas fa-bus text-white text-sm absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></i>
-            <div class="location-tooltip">Main Gate Bus Stop</div>
+    <!-- Category Icons -->
+    <section class="categories">
+        <div class="category-grid">
+            <div class="category-item">
+                <div class="category-icon blue">
+                    <i class="fas fa-bus"></i>
+                </div>
+                <span>Transport</span>
             </div>
-
-            <div class="location-marker food-marker map-marker-enhanced absolute top-1/3 left-1/2 w-8 h-8 bg-green-500 rounded-full shadow-lg cursor-pointer border-4 border-white hidden"
-            data-location="Main Canteen"
-            data-category="food"
-            data-coords="12.823500,80.041200"
-            data-details="South Indian & North Indian Meals | Breakfast, Lunch & Dinner"
-            data-timing="7:00 AM - 9:30 PM"
-            data-price="₹40-80 per meal">
-            <i class="fas fa-utensils text-white text-sm absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></i>
-            <div class="location-tooltip">Main Canteen</div>
+            <div class="category-item">
+                <div class="category-icon green">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <span>Food</span>
             </div>
-
-            <div class="location-marker food-marker map-marker-enhanced absolute top-1/2 right-1/3 w-8 h-8 bg-green-500 rounded-full shadow-lg cursor-pointer border-4 border-white hidden"
-            data-location="Food Court"
-            data-category="food"
-            data-coords="12.824000,80.040800"
-            data-details="Multi-cuisine Food Court | Pizza, Burger, Chinese, South Indian"
-            data-timing="9:00 AM - 10:00 PM"
-            data-price="₹60-150 per item">
-            <i class="fas fa-hamburger text-white text-sm absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></i>
-            <div class="location-tooltip">Food Court</div>
+            <div class="category-item">
+                <div class="category-icon orange">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <span>Shops</span>
             </div>
-
-            <div class="location-marker food-marker map-marker-enhanced absolute bottom-1/3 left-1/3 w-8 h-8 bg-green-500 rounded-full shadow-lg cursor-pointer border-4 border-white hidden"
-            data-location="CCD Coffee Shop"
-            data-category="food"
-            data-coords="12.823000,80.041500"
-            data-details="Coffee, Snacks & Beverages | WiFi Available | AC Seating"
-            data-timing="8:00 AM - 10:00 PM"
-            data-price="₹80-200 per order">
-            <i class="fas fa-coffee text-white text-sm absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></i>
-            <div class="location-tooltip">CCD Coffee Shop</div>
+            <div class="category-item">
+                <div class="category-icon yellow">
+                    <i class="fas fa-dumbbell"></i>
+                </div>
+                <span>Gym</span>
             </div>
-
-            <div class="location-marker shops-marker map-marker-enhanced absolute top-1/4 right-1/4 w-8 h-8 bg-amber-500 rounded-full shadow-lg cursor-pointer border-4 border-white hidden"
-            data-location="Admin Block Xerox"
-            data-category="shops"
-            data-coords="12.823200,80.041300"
-            data-details="Xerox, Printing & Scanning Services | Spiral Binding Available"
-            data-timing="8:00 AM - 10:00 PM"
-            data-price="₹1 per page | Binding: ₹10-25">
-            <i class="fas fa-print text-white text-sm absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></i>
-            <div class="location-tooltip">Admin Block Xerox</div>
+            <div class="category-item">
+                <div class="category-icon red">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <span>Health</span>
             </div>
-
-            <div class="location-marker shops-marker map-marker-enhanced absolute top-2/3 left-1/2 w-8 h-8 bg-amber-500 rounded-full shadow-lg cursor-pointer border-4 border-white hidden"
-            data-location="Stationery Shop"
-            data-category="shops"
-            data-coords="12.823800,80.041000"
-            data-details="Books, Pens, Notebooks & Student Supplies | Student ID Discounts Available"
-            data-timing="9:00 AM - 8:00 PM"
-            data-price="Books: ₹50-500 | Supplies: ₹10-100">
-            <i class="fas fa-book text-white text-sm absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></i>
-            <div class="location-tooltip">Stationery Shop</div>
+            <div class="category-item">
+                <div class="category-icon purple">
+                    <i class="fas fa-home"></i>
+                </div>
+                <span>Housing</span>
             </div>
-
-            <div class="location-marker shops-marker map-marker-enhanced absolute bottom-1/4 right-1/3 w-8 h-8 bg-amber-500 rounded-full shadow-lg cursor-pointer border-4 border-white hidden"
-            data-location="Laundry Service"
-            data-category="shops"
-            data-coords="12.824200,80.040600"
-            data-details="Wash & Fold Service | Next Day Delivery | Dry Cleaning Available"
-            data-timing="7:00 AM - 9:00 PM"
-            data-price="₹30 per kg | Express: ₹50 per kg">
-            <i class="fas fa-tshirt text-white text-sm absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></i>
-            <div class="location-tooltip">Laundry Service</div>
+            <div class="category-item">
+                <div class="category-icon blue-dark">
+                    <i class="fas fa-book"></i>
+                </div>
+                <span>Library</span>
             </div>
-
-            <div class="location-marker gym-marker map-marker-enhanced absolute top-1/2 left-1/6 w-8 h-8 bg-orange-500 rounded-full shadow-lg cursor-pointer border-4 border-white hidden"
-            data-location="SRM Fitness Center"
-            data-category="gym"
-            data-coords="12.824500,80.041800"
-            data-details="Cardio Equipment, Weight Training & Yoga Classes | Student ID Required"
-            data-timing="6:00 AM - 10:00 PM"
-            data-price="Free for Students | Guest: ₹50 per day">
-            <i class="fas fa-dumbbell text-white text-sm absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></i>
-            <div class="location-tooltip">SRM Fitness Center</div>
-            </div>
-
-            <div class="location-marker gym-marker map-marker-enhanced absolute bottom-1/6 right-1/6 w-8 h-8 bg-orange-500 rounded-full shadow-lg cursor-pointer border-4 border-white hidden"
-            data-location="Power Gym (Off-Campus)"
-            data-category="gym"
-            data-coords="12.825000,80.042500"
-            data-details="Modern Equipment | Personal Training Available | 1km from Main Gate"
-            data-timing="5:00 AM - 11:00 PM"
-            data-price="₹1500 per month | Daily: ₹100">
-            <i class="fas fa-running text-white text-sm absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></i>
-            <div class="location-tooltip">Power Gym (Off-Campus)</div>
-            </div>
-
-            <div class="location-marker health-marker map-marker-enhanced absolute top-1/6 right-1/3 w-8 h-8 bg-red-500 rounded-full shadow-lg cursor-pointer border-4 border-white hidden"
-            data-location="SRM Hospital"
-            data-category="health"
-            data-coords="12.822500,80.042000"
-            data-details="24/7 Emergency Services | OPD Available | Pharmacy on Ground Floor"
-            data-timing="Emergency: 24/7 | OPD: 8:00 AM - 8:00 PM"
-            data-price="Student Discount Available | Emergency: Free">
-            <i class="fas fa-hospital text-white text-sm absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></i>
-            <div class="location-tooltip">SRM Hospital</div>
-            </div>
-
-            <div class="location-marker health-marker map-marker-enhanced absolute bottom-1/4 left-1/4 w-8 h-8 bg-red-500 rounded-full shadow-lg cursor-pointer border-4 border-white hidden"
-            data-location="Campus Pharmacy"
-            data-category="health"
-            data-coords="12.822800,80.041600"
-            data-details="Medicines & First Aid Supplies | Student Health Insurance Accepted"
-            data-timing="8:00 AM - 10:00 PM"
-            data-price="Generic Medicine | 10% Student Discount">
-            <i class="fas fa-pills text-white text-sm absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></i>
-            <div class="location-tooltip">Campus Pharmacy</div>
-            </div>
-
-            <div class="location-marker housing-marker map-marker-enhanced absolute top-2/3 right-1/6 w-8 h-8 bg-purple-500 rounded-full shadow-lg cursor-pointer border-4 border-white hidden"
-            data-location="Boys Hostel Block A"
-            data-category="housing"
-            data-coords="12.825500,80.040300"
-            data-details="On-Campus Accommodation | AC/Non-AC Options | Mess Facility | 24/7 Security"
-            data-timing="24/7 Access for Residents"
-            data-price="AC: ₹80,000 per year | Non-AC: ₹60,000 per year">
-            <i class="fas fa-bed text-white text-sm absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></i>
-            <div class="location-tooltip">Boys Hostel Block A</div>
-            </div>
-
-            <div class="location-marker housing-marker map-marker-enhanced absolute bottom-1/6 left-1/3 w-8 h-8 bg-purple-500 rounded-full shadow-lg cursor-pointer border-4 border-white hidden"
-            data-location="SRM PGs Nearby"
-            data-category="housing"
-            data-coords="12.826000,80.042800"
-            data-details="Off-Campus PG Accommodation | Various Options Available | 500m from Main Gate"
-            data-timing="24/7 Access"
-            data-price="₹8,000-15,000 per month | Includes Food & WiFi">
-            <i class="fas fa-home text-white text-sm absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></i>
-            <div class="location-tooltip">SRM PGs Nearby</div>
+            <div class="category-item">
+                <div class="category-icon teal">
+                    <i class="fas fa-calendar"></i>
+                </div>
+                <span>Events</span>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 
-<div id="current-category-info" class="bg-blue-50 rounded-xl p-4 mt-6 mb-6">
-<div class="flex items-center justify-between">
-<div>
-<h4 class="font-bold text-blue-800 mb-1">🚌 Transportation Locations</h4>
-<p class="text-blue-600 text-sm">Showing 1 location • Click markers for Google Maps directions</p>
-</div>
-<div class="text-blue-600">
-<i class="fas fa-mouse-pointer"></i>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-
-<section class="container mx-auto px-6 mb-16">
-<div class="text-center mb-12">
-<h2 class="text-4xl font-bold gradient-text mb-4">🎉 Campus Life & Events</h2>
-<p class="text-xl text-gray-600 max-w-2xl mx-auto">Join amazing events, festivals, and activities that make SRMIST campus life memorable</p>
-</div>
-
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-<div class="event-card bg-white rounded-2xl overflow-hidden shadow-2xl card-enhanced relative">
-<div class="event-image relative h-48 overflow-hidden">
-<img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" 
-alt="AARUUSH Tech Fest" 
-class="w-full h-full object-cover">
-<div class="absolute inset-0 bg-gradient-to-br from-blue-500/80 to-indigo-600/80"></div>
-<div class="absolute bottom-4 left-6 right-6 text-white">
-<div class="bg-white/20 rounded-full p-3 w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-<i class="fas fa-rocket text-2xl"></i>
-</div>
-<h3 class="text-2xl font-bold text-center">AARUUSH</h3>
-</div>
-</div>
-<div class="p-6">
-<p class="text-blue-600 mb-4 text-center font-medium">Annual Tech Fest</p>
-<div class="space-y-2 text-sm text-gray-600 mb-6">
-<div class="flex items-center justify-center">
-<i class="fas fa-calendar mr-2 text-blue-500"></i>
-<span>February 2026</span>
-</div>
-<div class="flex items-center justify-center">
-<i class="fas fa-users mr-2 text-blue-500"></i>
-<span>50,000+ Participants</span>
-</div>
-<div class="flex items-center justify-center">
-<i class="fas fa-trophy mr-2 text-blue-500"></i>
-<span>₹10 Lakhs Prize Money</span>
-</div>
-</div>
-<button class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-indigo-700 transition">
-Learn More
-</button>
-</div>
-</div>
-
-<div class="event-card bg-white rounded-2xl overflow-hidden shadow-2xl card-enhanced relative">
-<div class="event-image relative h-48 overflow-hidden">
-<img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" 
-alt="MILAN Cultural Fest" 
-class="w-full h-full object-cover">
-<div class="absolute inset-0 bg-gradient-to-br from-purple-500/80 to-pink-600/80"></div>
-<div class="absolute bottom-4 left-6 right-6 text-white">
-<div class="bg-white/20 rounded-full p-3 w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-<i class="fas fa-music text-2xl"></i>
-</div>
-<h3 class="text-2xl font-bold text-center">MILAN</h3>
-</div>
-</div>
-<div class="p-6">
-<p class="text-purple-600 mb-4 text-center font-medium">Cultural Extravaganza</p>
-<div class="space-y-2 text-sm text-gray-600 mb-6">
-<div class="flex items-center justify-center">
-<i class="fas fa-calendar mr-2 text-purple-500"></i>
-<span>October 2025</span>
-</div>
-<div class="flex items-center justify-center">
-<i class="fas fa-star mr-2 text-purple-500"></i>
-<span>Celebrity Performances</span>
-</div>
-<div class="flex items-center justify-center">
-<i class="fas fa-microphone mr-2 text-purple-500"></i>
-<span>25+ Events</span>
-</div>
-</div>
-<button class="w-full bg-gradient-to-r from-purple-500 to-pink-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-700 transition">
-Explore Events
-</button>
-</div>
-</div>
-
-<div class="event-card bg-white rounded-2xl overflow-hidden shadow-2xl card-enhanced relative">
-<div class="event-image relative h-48 overflow-hidden">
-<img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" 
-alt="Sports Fiesta" 
-class="w-full h-full object-cover">
-<div class="absolute inset-0 bg-gradient-to-br from-green-500/80 to-emerald-600/80"></div>
-<div class="absolute bottom-4 left-6 right-6 text-white">
-<div class="bg-white/20 rounded-full p-3 w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-<i class="fas fa-trophy text-2xl"></i>
-</div>
-<h3 class="text-2xl font-bold text-center">SPORTS FIESTA</h3>
-</div>
-</div>
-<div class="p-6">
-<p class="text-green-600 mb-4 text-center font-medium">Athletic Championships</p>
-<div class="space-y-2 text-sm text-gray-600 mb-6">
-<div class="flex items-center justify-center">
-<i class="fas fa-calendar mr-2 text-green-500"></i>
-<span>March 2026</span>
-</div>
-<div class="flex items-center justify-center">
-<i class="fas fa-medal mr-2 text-green-500"></i>
-<span>Inter-College Competitions</span>
-</div>
-<div class="flex items-center justify-center">
-<i class="fas fa-running mr-2 text-green-500"></i>
-<span>20+ Sports Events</span>
-</div>
-</div>
-<button class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-green-600 hover:to-emerald-700 transition">
-Register Now
-</button>
-</div>
-</div>
-</div>
-
-<div class="bg-white rounded-2xl shadow-xl p-8">
-<h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-<i class="fas fa-calendar-alt mr-3 text-blue-500"></i>
-Upcoming Campus Events
-</h3>
-
-<div class="space-y-6">
-<div class="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-50 transition">
-<div class="bg-blue-500 rounded-full p-3 text-white">
-<i class="fas fa-graduation-cap"></i>
-</div>
-<div class="flex-1">
-<h4 class="font-bold text-gray-800">Tech Symposium</h4>
-<p class="text-gray-600 text-sm">AI & Machine Learning Conference</p>
-<div class="flex items-center text-xs text-gray-500 mt-1">
-<i class="fas fa-clock mr-1"></i>
-<span>Today, 5:00 PM</span>
-<i class="fas fa-map-marker-alt ml-4 mr-1"></i>
-<span>TP Ganesan Auditorium</span>
-</div>
-</div>
-<button class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-Join Event
-</button>
-</div>
-
-<div class="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-50 transition">
-<div class="bg-purple-500 rounded-full p-3 text-white">
-<i class="fas fa-paint-brush"></i>
-</div>
-<div class="flex-1">
-<h4 class="font-bold text-gray-800">Art Exhibition</h4>
-<p class="text-gray-600 text-sm">Student Creative Showcase</p>
-<div class="flex items-center text-xs text-gray-500 mt-1">
-<i class="fas fa-clock mr-1"></i>
-<span>Tomorrow, 10:00 AM</span>
-<i class="fas fa-map-marker-alt ml-4 mr-1"></i>
-<span>Library Gallery</span>
-</div>
-</div>
-<button class="text-purple-600 hover:text-purple-800 text-sm font-medium">
-View Details
-</button>
-</div>
-
-<div class="flex items-start space-x-4 p-4 rounded-lg hover:bg-gray-50 transition">
-<div class="bg-green-500 rounded-full p-3 text-white">
-<i class="fas fa-chalkboard-teacher"></i>
-</div>
-<div class="flex-1">
-<h4 class="font-bold text-gray-800">Guest Lecture Series</h4>
-<p class="text-gray-600 text-sm">Industry Leaders Talk</p>
-<div class="flex items-center text-xs text-gray-500 mt-1">
-<i class="fas fa-clock mr-1"></i>
-<span>Next Friday, 2:00 PM</span>
-<i class="fas fa-map-marker-alt ml-4 mr-1"></i>
-<span>SJT Building</span>
-</div>
-</div>
-<button class="text-green-600 hover:text-green-800 text-sm font-medium">
-Register
-</button>
-</div>
-</div>
-</div>
-</section>
-
-<section class="container mx-auto px-6 mb-16">
-<div class="text-center mb-12">
-<h2 class="text-4xl font-bold gradient-text mb-4">🏛️ Campus Facilities</h2>
-<p class="text-xl text-gray-600 max-w-2xl mx-auto">Discover all the amazing facilities and services available on SRMIST Potheri campus</p>
-</div>
-
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-<div class="facility-card bg-white rounded-2xl shadow-xl overflow-hidden card-enhanced cursor-pointer" data-facility="transportation">
-<div class="relative h-56 overflow-hidden">
-<img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" 
-alt="Transportation Hub" 
-class="facility-image w-full h-full object-cover">
-<div class="absolute inset-0 bg-gradient-to-t from-blue-600/90 via-blue-500/60 to-blue-400/40"></div>
-<div class="absolute bottom-6 left-6 right-6">
-<div class="flex items-center justify-between mb-3">
-<h3 class="text-2xl font-bold text-white">🚌 Transportation</h3>
-<div class="bg-white/20 backdrop-blur-sm rounded-full p-2">
-<i class="fas fa-bus text-white"></i>
-</div>
-</div>
-<p class="text-blue-100 text-sm">Buses, Trains & Smart Routes</p>
-</div>
-</div>
-
-<div class="p-6">
-<div class="flex items-center justify-between mb-4">
-<div>
-<h4 class="font-bold text-gray-800">Next Bus 500</h4>
-<p class="text-sm text-gray-600">To Tambaram Station</p>
-</div>
-<div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-3 mins
-</div>
-</div>
-
-<div class="grid grid-cols-2 gap-4 text-xs text-gray-500 mb-4">
-<div class="flex items-center">
-<i class="fas fa-train mr-2 text-blue-500"></i>
-<span>Train: 4:15 PM</span>
-</div>
-<div class="flex items-center">
-<i class="fas fa-taxi mr-2 text-blue-500"></i>
-<span>Autos: Available</span>
-</div>
-</div>
-
-<button class="w-full text-blue-600 text-sm font-medium hover:text-blue-800 transition flex items-center justify-center">
-View Routes <i class="fas fa-arrow-right ml-1"></i>
-</button>
-</div>
-</div>
-
-<div class="facility-card bg-white rounded-2xl shadow-xl overflow-hidden card-enhanced cursor-pointer" data-facility="food">
-<div class="relative h-56 overflow-hidden">
-<img src="https://images.unsplash.com/photo-1567521464027-f127ff144326?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" 
-alt="Food & Dining" 
-class="facility-image w-full h-full object-cover">
-<div class="absolute inset-0 bg-gradient-to-t from-green-600/90 via-green-500/60 to-green-400/40"></div>
-<div class="absolute bottom-6 left-6 right-6">
-<div class="flex items-center justify-between mb-3">
-<h3 class="text-2xl font-bold text-white">🍽️ Food & Dining</h3>
-<div class="bg-white/20 backdrop-blur-sm rounded-full p-2">
-<i class="fas fa-utensils text-white"></i>
-</div>
-</div>
-<p class="text-green-100 text-sm">Mess, Cafés & Restaurants</p>
-</div>
-</div>
-
-<div class="p-6">
-<div class="flex items-center justify-between mb-4">
-<div>
-<h4 class="font-bold text-gray-800">Today's Special</h4>
-<p class="text-sm text-gray-600">Biryani & Raita</p>
-</div>
-<div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
-Available
-</div>
-</div>
-
-<div class="grid grid-cols-2 gap-4 text-xs text-gray-500 mb-4">
-<div class="flex items-center">
-<i class="fas fa-coffee mr-2 text-green-500"></i>
-<span>CCD: Open</span>
-</div>
-<div class="flex items-center">
-<i class="fas fa-hamburger mr-2 text-green-500"></i>
-<span>Food Court: Open</span>
-</div>
-</div>
-
-<div class="bg-green-50 rounded-lg p-3">
-<div class="text-sm text-green-800 font-medium mb-1">Next Meal</div>
-<div class="text-xs text-green-600">Dinner: 7:30 PM - 9:30 PM</div>
-</div>
-</div>
-</div>
-
-<div class="facility-card bg-white rounded-2xl shadow-xl overflow-hidden card-enhanced cursor-pointer" data-facility="shops">
-<div class="relative h-56 overflow-hidden">
-<img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" 
-alt="Shops & Services" 
-class="facility-image w-full h-full object-cover">
-<div class="absolute inset-0 bg-gradient-to-t from-amber-600/90 via-amber-500/60 to-amber-400/40"></div>
-<div class="absolute bottom-6 left-6 right-6">
-<div class="flex items-center justify-between mb-3">
-<h3 class="text-2xl font-bold text-white">🛍️ Shops & Services</h3>
-<div class="bg-white/20 backdrop-blur-sm rounded-full p-2">
-<i class="fas fa-shopping-bag text-white"></i>
-</div>
-</div>
-<p class="text-amber-100 text-sm">Xerox, Stationery & More</p>
-</div>
-</div>
-
-<div class="p-6">
-<div class="space-y-3 mb-4">
-<div class="flex items-center justify-between">
-<div class="flex items-center">
-<i class="fas fa-print text-amber-500 mr-2"></i>
-<span class="text-sm font-medium">Xerox Shops</span>
-</div>
-<span class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-full">Open</span>
-</div>
-<div class="flex items-center justify-between">
-<div class="flex items-center">
-<i class="fas fa-book text-amber-500 mr-2"></i>
-<span class="text-sm font-medium">Stationery</span>
-</div>
-<span class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-full">Open</span>
-</div>
-</div>
-
-<div class="bg-amber-50 rounded-lg p-3">
-<div class="text-sm text-amber-800 font-medium mb-1">Extended Hours</div>
-<div class="text-xs text-amber-600">Open till 10 PM during exams</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-
-<footer class="bg-gradient-to-br from-gray-900 to-blue-900 text-white py-16">
-<div class="container mx-auto px-6">
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-<div class="lg:col-span-2">
-<div class="flex items-center mb-4">
-<div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-full p-3 mr-3">
-<i class="fas fa-graduation-cap text-xl"></i>
-</div>
-<div>
-<h3 class="text-2xl font-bold">LocalAlert Pro</h3>
-<p class="text-blue-200">Smart Campus Platform</p>
-</div>
-</div>
-<p class="text-gray-300 mb-6 max-w-md">
-Empowering SRMIST Potheri students with AI-powered campus navigation,
-real-time updates, and seamless connectivity for a smarter campus experience.
-</p>
-</div>
-
-<div>
-<h4 class="font-bold mb-4 text-lg">🔗 Quick Access</h4>
-<ul class="space-y-3">
-<li><a href="#" class="text-gray-300 hover:text-white transition flex items-center"><i class="fas fa-bus mr-2"></i> Transportation</a></li>
-<li><a href="#" class="text-gray-300 hover:text-white transition flex items-center"><i class="fas fa-utensils mr-2"></i> Food & Dining</a></li>
-<li><a href="#" class="text-gray-300 hover:text-white transition flex items-center"><i class="fas fa-map mr-2"></i> Campus Map</a></li>
-</ul>
-</div>
-
-<div>
-<h4 class="font-bold mb-4 text-lg">🆘 Support</h4>
-<ul class="space-y-3">
-<li><a href="#" class="text-gray-300 hover:text-white transition flex items-center"><i class="fas fa-phone mr-2"></i> Emergency: 112</a></li>
-<li><a href="#" class="text-gray-300 hover:text-white transition flex items-center"><i class="fas fa-envelope mr-2"></i> support@localalert.edu</a></li>
-</ul>
-</div>
-</div>
-
-<div class="border-t border-gray-700 pt-8 text-center">
-<p class="text-gray-400">
-© 2025 LocalAlert Pro - SRMIST Potheri. All rights reserved. Made with ❤️ for students.
-</p>
-</div>
-</div>
-</footer>
-
-<div id="location-modal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop hidden items-center justify-center z-50">
-<div class="bg-white rounded-2xl max-w-md mx-4 overflow-hidden shadow-2xl modal-content">
-<div id="modal-header" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6">
-<div class="flex items-center justify-between">
-<div>
-<h3 id="modal-title" class="text-xl font-bold">Location Name</h3>
-<p class="text-blue-100 text-sm">SRMIST Potheri Campus</p>
-</div>
-<button onclick="closeLocationModal()" class="text-white hover:text-gray-200">
-<i class="fas fa-times text-xl"></i>
-</button>
-</div>
-</div>
-
-<div id="modal-body" class="p-6">
-<div class="mb-4">
-<h4 class="font-semibold text-gray-800 mb-2">📍 Location Details</h4>
-<p id="modal-details" class="text-gray-600 text-sm mb-3">Location details will appear here</p>
-
-<div class="grid grid-cols-2 gap-4 mb-4">
-<div class="bg-gray-50 rounded-lg p-3">
-<div class="text-xs font-semibold text-gray-500 mb-1">TIMING</div>
-<div id="modal-timing" class="text-sm text-gray-800">Loading...</div>
-</div>
-<div class="bg-gray-50 rounded-lg p-3">
-<div class="text-xs font-semibold text-gray-500 mb-1">PRICING</div>
-<div id="modal-price" class="text-sm text-gray-800">Loading...</div>
-</div>
-</div>
-</div>
-
-<div class="space-y-3">
-<button onclick="openGoogleMaps()" id="directions-btn"
-class="w-full bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-lg font-medium transition flex items-center justify-center">
-<i class="fas fa-directions mr-2"></i>
-Get Directions via Google Maps
-</button>
-
-<button onclick="shareLocation()"
-class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-lg font-medium transition flex items-center justify-center">
-<i class="fas fa-share-alt mr-2"></i>
-Share Location
-</button>
-</div>
-
-<div class="mt-4 text-center text-xs text-gray-500">
-<i class="fas fa-map-marker-alt mr-1"></i>
-<span id="modal-coords">Coordinates will appear here</span>
-</div>
-</div>
-</div>
-</div>
-
-<div id="image-modal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50 backdrop-blur-sm">
-<div class="relative max-w-4xl max-h-full p-4">
-<button onclick="closeImageModal()" class="absolute -top-12 right-0 text-white hover:text-gray-300 text-2xl">
-<i class="fas fa-times"></i>
-</button>
-<img id="modal-image" src="" alt="" class="max-w-full max-h-full rounded-lg shadow-2xl">
-<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 rounded-b-lg">
-<h3 id="modal-image-title" class="text-white text-xl font-bold mb-2"></h3>
-<p id="modal-image-description" class="text-gray-200"></p>
-</div>
-</div>
-</div>
-
-<script>
-// Global variables for modal functionality
-let currentLocationData = {};
-
-// Image functionality
-const imageData = {
-campus1: {
-src: "https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80",
-title: "SRMIST Main Campus",
-description: "The iconic administrative building that serves as the heart of SRMIST Potheri campus."
-},
-campus2: {
-src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80", 
-title: "Central Library",
-description: "State-of-the-art library with 24/7 access and modern study facilities."
-},
-campus3: {
-src: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80",
-title: "SRM Tech Park", 
-description: "Innovation and entrepreneurship hub for students and startups."
-},
-campus4: {
-src: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80",
-title: "Sports Complex",
-description: "Modern sports facilities for various indoor and outdoor games."
-},
-campus5: {
-src: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80",
-title: "Student Hostels",
-description: "Comfortable accommodation with all modern amenities for students."
-},
-campus6: {
-src: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80",
-title: "TP Ganesan Auditorium",
-description: "World-class auditorium for events, conferences, and cultural programs."
-}
-};
-
-function openImageModal(imageId) {
-const data = imageData[imageId];
-if (data) {
-document.getElementById('modal-image').src = data.src;
-document.getElementById('modal-image-title').textContent = data.title;
-document.getElementById('modal-image-description').textContent = data.description;
-document.getElementById('image-modal').classList.remove('hidden');
-document.getElementById('image-modal').classList.add('flex');
-}
-}
-
-function closeImageModal() {
-document.getElementById('image-modal').classList.add('hidden');
-document.getElementById('image-modal').classList.remove('flex');
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-// Remove loading screen
-setTimeout(() => {
-const loadingScreen = document.getElementById('loading-screen');
-loadingScreen.style.opacity = '0';
-setTimeout(() => {
-loadingScreen.style.display = 'none';
-}, 500);
-}, 1500);
-
-// SRMIST Potheri Campus Location Data
-const campusLocationData = {
-transportation: [
-{
-name: "Main Gate Bus Stop",
-coords: "12.823237,80.041769",
-details: "Bus 500, 501 to Tambaram & Chennai | Auto Stand Available | Train Station 500m away",
-timing: "24/7 Available",
-price: "Bus: ₹25-50 | Auto: ₹100-150",
-icon: "fas fa-bus"
-}
-],
-food: [
-{
-name: "Main Canteen",
-coords: "12.823500,80.041200",
-details: "South Indian & North Indian Meals | Breakfast, Lunch & Dinner",
-timing: "7:00 AM - 9:30 PM",
-price: "₹40-80 per meal",
-icon: "fas fa-utensils"
-},
-{
-name: "Food Court",
-coords: "12.824000,80.040800",
-details: "Multi-cuisine Food Court | Pizza, Burger, Chinese, South Indian",
-timing: "9:00 AM - 10:00 PM",
-price: "₹60-150 per item",
-icon: "fas fa-hamburger"
-},
-{
-name: "CCD Coffee Shop",
-coords: "12.823000,80.041500",
-details: "Coffee, Snacks & Beverages | WiFi Available | AC Seating",
-timing: "8:00 AM - 10:00 PM",
-price: "₹80-200 per order",
-icon: "fas fa-coffee"
-}
-],
-shops: [
-{
-name: "Admin Block Xerox",
-coords: "12.823200,80.041300",
-details: "Xerox, Printing & Scanning Services | Spiral Binding Available",
-timing: "8:00 AM - 10:00 PM",
-price: "₹1 per page | Binding: ₹10-25",
-icon: "fas fa-print"
-},
-{
-name: "Stationery Shop",
-coords: "12.823800,80.041000",
-details: "Books, Pens, Notebooks & Student Supplies | Student ID Discounts Available",
-timing: "9:00 AM - 8:00 PM",
-price: "Books: ₹50-500 | Supplies: ₹10-100",
-icon: "fas fa-book"
-},
-{
-name: "Laundry Service",
-coords: "12.824200,80.040600",
-details: "Wash & Fold Service | Next Day Delivery | Dry Cleaning Available",
-timing: "7:00 AM - 9:00 PM",
-price: "₹30 per kg | Express: ₹50 per kg",
-icon: "fas fa-tshirt"
-}
-],
-gym: [
-{
-name: "SRM Fitness Center",
-coords: "12.824500,80.041800",
-details: "Cardio Equipment, Weight Training & Yoga Classes | Student ID Required",
-timing: "6:00 AM - 10:00 PM",
-price: "Free for Students | Guest: ₹50 per day",
-icon: "fas fa-dumbbell"
-},
-{
-name: "Power Gym (Off-Campus)",
-coords: "12.825000,80.042500",
-details: "Modern Equipment | Personal Training Available | 1km from Main Gate",
-timing: "5:00 AM - 11:00 PM",
-price: "₹1500 per month | Daily: ₹100",
-icon: "fas fa-running"
-}
-],
-health: [
-{
-name: "SRM Hospital",
-coords: "12.822500,80.042000",
-details: "24/7 Emergency Services | OPD Available | Pharmacy on Ground Floor",
-timing: "Emergency: 24/7 | OPD: 8:00 AM - 8:00 PM",
-price: "Student Discount Available | Emergency: Free",
-icon: "fas fa-hospital"
-},
-{
-name: "Campus Pharmacy",
-coords: "12.822800,80.041600",
-details: "Medicines & First Aid Supplies | Student Health Insurance Accepted",
-timing: "8:00 AM - 10:00 PM",
-price: "Generic Medicine | 10% Student Discount",
-icon: "fas fa-pills"
-}
-],
-housing: [
-{
-name: "Boys Hostel Block A",
-coords: "12.825500,80.040300",
-details: "On-Campus Accommodation | AC/Non-AC Options | Mess Facility | 24/7 Security",
-timing: "24/7 Access for Residents",
-price: "AC: ₹80,000 per year | Non-AC: ₹60,000 per year",
-icon: "fas fa-bed"
-},
-{
-name: "SRM PGs Nearby",
-coords: "12.826000,80.042800",
-details: "Off-Campus PG Accommodation | Various Options Available | 500m from Main Gate",
-timing: "24/7 Access",
-price: "₹8,000-15,000 per month | Includes Food & WiFi",
-icon: "fas fa-home"
-}
-]
-};
-
-// Category Filter Functionality
-const categoryButtons = document.querySelectorAll('.category-filter-btn');
-const locationMarkers = document.querySelectorAll('.location-marker');
-const currentCategoryInfo = document.getElementById('current-category-info');
-
-categoryButtons.forEach(button => {
-button.addEventListener('click', function() {
-const category = this.getAttribute('data-category');
-
-// Update active button
-categoryButtons.forEach(btn => {
-btn.classList.remove('active');
-btn.classList.add('opacity-70');
-});
-this.classList.add('active');
-this.classList.remove('opacity-70');
-
-// Show/hide relevant markers
-locationMarkers.forEach(marker => {
-if (marker.classList.contains(category + '-marker')) {
-marker.classList.remove('hidden');
-marker.classList.add('animate-bounce');
-setTimeout(() => marker.classList.remove('animate-bounce'), 1000);
-} else {
-marker.classList.add('hidden');
-}
-});
-
-// Update info panel
-updateCategoryInfo(category);
-});
-});
-
-// Location Marker Click Functionality
-locationMarkers.forEach(marker => {
-marker.addEventListener('click', function() {
-const locationName = this.getAttribute('data-location');
-const coords = this.getAttribute('data-coords');
-const details = this.getAttribute('data-details');
-const timing = this.getAttribute('data-timing');
-const price = this.getAttribute('data-price');
-const category = this.getAttribute('data-category');
-
-showLocationModal(locationName, coords, details, timing, price, category);
-});
-});
-
-function updateCategoryInfo(category) {
-const categoryInfo = {
-transportation: {
-icon: '🚌',
-title: 'Transportation Locations',
-count: campusLocationData.transportation.length,
-description: 'Bus stops, auto stands, and transport hubs'
-},
-food: {
-icon: '🍽️',
-title: 'Food & Dining Locations',
-count: campusLocationData.food.length,
-description: 'Canteens, cafés, and food courts'
-},
-shops: {
-icon: '🛍️',
-title: 'Shops & Services',
-count: campusLocationData.shops.length,
-description: 'Xerox, stationery, and essential services'
-},
-gym: {
-icon: '💪',
-title: 'Gym & Fitness Centers',
-count: campusLocationData.gym.length,
-description: 'On-campus and nearby fitness facilities'
-},
-health: {
-icon: '🏥',
-title: 'Health & Safety Locations',
-count: campusLocationData.health.length,
-description: 'Hospital, pharmacy, and medical services'
-},
-housing: {
-icon: '🏠',
-title: 'Housing Options',
-count: campusLocationData.housing.length,
-description: 'Hostels and nearby accommodation'
-}
-};
-
-const info = categoryInfo[category];
-if (info) {
-currentCategoryInfo.innerHTML = `
-<div class="flex items-center justify-between">
-<div>
-<h4 class="font-bold text-blue-800 mb-1">${info.icon} ${info.title}</h4>
-<p class="text-blue-600 text-sm">Showing ${info.count} locations • ${info.description}</p>
-</div>
-<div class="text-blue-600">
-<i class="fas fa-mouse-pointer"></i>
-</div>
-</div>
-`;
-}
-}
-
-// Initialize with transportation category
-setTimeout(() => {
-document.querySelector('[data-category="transportation"]')?.click();
-}, 500);
-
-// Lazy loading for images
-const images = document.querySelectorAll('img[loading="lazy"]');
-const imageObserver = new IntersectionObserver((entries) => {
-entries.forEach(entry => {
-if (entry.isIntersecting) {
-const img = entry.target;
-img.classList.add('fade-in');
-}
-});
-});
-
-images.forEach(img => imageObserver.observe(img));
-
-// --- UPDATED: Interactive SVG Floor Plan for Tech Park ---
-const floorPlanGroups = document.querySelectorAll('#floor-plan .room-group');
-const infoTitle = document.getElementById('info-title');
-const infoDescription = document.getElementById('info-description');
-const techPark3DExplorer = document.getElementById('tech-park-3d-explorer');
-const techParkZoneDetails = document.getElementById('tech-park-zone-details');
-const zoneDetailsTitle = document.getElementById('zone-details-title');
-
-if (floorPlanGroups.length > 0) {
-    floorPlanGroups.forEach(group => {
-        const shape = group.querySelector('.room-shape');
+    <!-- Campus Gallery -->
+    <section class="gallery-section">
+        <div class="section-header">
+            <div class="section-icon">
+                <i class="fas fa-images"></i>
+            </div>
+            <h2>Campus Gallery</h2>
+        </div>
+        <p class="section-subtitle">Explore SRMIST Potheri through stunning visuals</p>
         
-        group.addEventListener('click', function() {
-            const title = this.dataset.title;
-            const description = this.dataset.description;
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <div class="gallery-image campus-building"></div>
+                <div class="gallery-overlay">
+                    <h3>Main Campus Building</h3>
+                    <p>Administrative Block</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-image library"></div>
+                <div class="gallery-overlay">
+                    <h3>Central Library</h3>
+                    <p>24/7 Study Space</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-image tech-park"></div>
+                <div class="gallery-overlay">
+                    <h3>SRM Tech Park</h3>
+                    <p>Innovation Hub</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-image sports"></div>
+                <div class="gallery-overlay">
+                    <h3>Sports Complex</h3>
+                    <p>Fitness & Recreation</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-image hostels"></div>
+                <div class="gallery-overlay">
+                    <h3>Student Hostels</h3>
+                    <p>Comfortable Living</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-image auditorium"></div>
+                <div class="gallery-overlay">
+                    <h3>TP Ganesan Auditorium</h3>
+                    <p>Events & Conferences</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            // 1. Update the top info panel
-            infoTitle.textContent = title;
-            infoDescription.textContent = description;
-
-            // 2. Update active state for visual feedback on the map
-            document.querySelectorAll('#floor-plan .room-shape').forEach(s => s.classList.remove('active'));
-            shape.classList.add('active');
-
-            // 3. Hide the 3D explorer placeholder
-            techPark3DExplorer.classList.add('hidden');
+    <!-- Campus Facilities -->
+    <section class="facilities-section">
+        <div class="section-header">
+            <div class="section-icon">
+                <i class="fas fa-home"></i>
+            </div>
+            <h2>Campus Facilities</h2>
+        </div>
+        <p class="section-subtitle">Discover key facilities. Click a card to find them on the interactive map!</p>
+        
+        <div class="facilities-grid">
+            <div class="facility-card transportation">
+                <div class="facility-image transport-bg">
+                    <h3>Transportation</h3>
+                    <p>Buses, Trains & Autos</p>
+                </div>
+                <div class="facility-content">
+                    <div class="facility-details">
+                        <div class="detail-item">
+                            <h4>Bus 500</h4>
+                            <p>To Tambaram</p>
+                            <div class="status arriving">Arriving in 5 min</div>
+                        </div>
+                        <div class="detail-info">
+                            <p><i class="fas fa-clock"></i> Next train: 4:15 PM</p>
+                            <p><i class="fas fa-car"></i> Autos available</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
-            // 4. Show the detailed zone view and update its title
-            zoneDetailsTitle.textContent = `Inside the ${title}`;
-            techParkZoneDetails.classList.remove('hidden');
+            <div class="facility-card dining">
+                <div class="facility-image dining-bg">
+                    <h3>Food & Dining</h3>
+                    <p>Mess, Canteens & More</p>
+                </div>
+                <div class="facility-content">
+                    <div class="facility-details">
+                        <div class="detail-item">
+                            <h4>Main Mess</h4>
+                            <p>Breakfast: 7:30-9:30 AM</p>
+                            <div class="status open">Open Now</div>
+                        </div>
+                        <div class="detail-info">
+                            <p><i class="fas fa-utensils"></i> CCD: Open</p>
+                            <p><i class="fas fa-coffee"></i> Food Court: Open</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="facility-card services">
+                <div class="facility-image services-bg">
+                    <h3>Shops & Services</h3>
+                    <p>Xerox, Stationery & More</p>
+                </div>
+                <div class="facility-content">
+                    <div class="facility-details">
+                        <div class="detail-item">
+                            <h4>Xerox Shops</h4>
+                            <p>Near Admin Block</p>
+                            <div class="status open-till">Open till 9 PM</div>
+                        </div>
+                        <div class="detail-info">
+                            <p><i class="fas fa-copy"></i> Stationery: Open</p>
+                            <p><i class="fas fa-tshirt"></i> Laundry: Open</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="facilities-grid-2">
+            <div class="facility-card health">
+                <div class="facility-image health-bg">
+                    <h3>Health & Safety</h3>
+                    <p>Hospital, Pharmacy & SOS</p>
+                </div>
+                <div class="facility-content">
+                    <div class="facility-details">
+                        <div class="detail-item">
+                            <h4>Emergency Contact</h4>
+                            <p>24/7 Available</p>
+                            <div class="emergency-number">+91 98402 12345</div>
+                        </div>
+                        <div class="detail-info">
+                            <p><i class="fas fa-hospital"></i> SRM Hospital: Open</p>
+                            <p><i class="fas fa-pills"></i> Doctors: Available</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="facility-card fitness">
+                <div class="facility-image fitness-bg">
+                    <h3>Gym & Fitness</h3>
+                    <p>On-campus & Nearby Gyms</p>
+                </div>
+                <div class="facility-content">
+                    <div class="facility-details">
+                        <div class="detail-item">
+                            <h4>SRM Fitness Center</h4>
+                            <p>On-campus facility</p>
+                            <div class="status open">Open Now</div>
+                        </div>
+                        <div class="detail-info">
+                            <p><i class="fas fa-clock"></i> Timings: 6AM-10PM</p>
+                            <p><i class="fas fa-phone"></i> Contact: 9876543210</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="facility-card housing">
+                <div class="facility-image housing-bg">
+                    <h3>Housing</h3>
+                    <p>Hostels, PGs & Flats</p>
+                </div>
+                <div class="facility-content">
+                    <div class="facility-details">
+                        <div class="detail-item">
+                            <h4>Hostel Applications</h4>
+                            <p>2024-25 Academic Year</p>
+                            <div class="status open-purple">Open</div>
+                        </div>
+                        <div class="detail-info">
+                            <p><i class="fas fa-bed"></i> PGs Available: 12</p>
+                            <p><i class="fas fa-map-marker-alt"></i> Near Campus</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Map -->
+    <section class="map-section">
+        <div class="section-header">
+            <div class="section-icon">
+                <i class="fas fa-map-marked-alt"></i>
+            </div>
+            <h2>Interactive SRMIST Potheri Map</h2>
+        </div>
+        <p class="section-subtitle">Click category buttons to filter locations. Click markers for details.</p>
+        
+        <div class="map-container">
+            <div class="map-filters">
+                <button class="filter-btn active" data-category="transportation">
+                    <i class="fas fa-bus"></i>
+                    <div>
+                        <span class="filter-title">Transportation</span>
+                        <span class="filter-subtitle">Buses & Autos</span>
+                    </div>
+                </button>
+                <button class="filter-btn" data-category="food">
+                    <i class="fas fa-utensils"></i>
+                    <div>
+                        <span class="filter-title">Food & Dining</span>
+                        <span class="filter-subtitle">Mess & Cafés</span>
+                    </div>
+                </button>
+                <button class="filter-btn" data-category="shops">
+                    <i class="fas fa-shopping-bag"></i>
+                    <div>
+                        <span class="filter-title">Shops & Services</span>
+                        <span class="filter-subtitle">Xerox & Stationery</span>
+                    </div>
+                </button>
+                <button class="filter-btn" data-category="gym">
+                    <i class="fas fa-dumbbell"></i>
+                    <div>
+                        <span class="filter-title">Gyms & Fitness</span>
+                        <span class="filter-subtitle">On & Off Campus</span>
+                    </div>
+                </button>
+                <button class="filter-btn" data-category="health">
+                    <i class="fas fa-heart"></i>
+                    <div>
+                        <span class="filter-title">Health & Safety</span>
+                        <span class="filter-subtitle">Hospital & Emergency</span>
+                    </div>
+                </button>
+                <button class="filter-btn" data-category="housing">
+                    <i class="fas fa-home"></i>
+                    <div>
+                        <span class="filter-title">Housing</span>
+                        <span class="filter-subtitle">Hostels & PGs</span>
+                    </div>
+                </button>
+            </div>
+            <div class="map-display">
+                <div class="map-controls">
+                    <button class="map-control">+</button>
+                    <button class="map-control">−</button>
+                </div>
+                <div class="map-image">
+                    <!-- Map markers -->
+                    <div class="map-marker blue" style="top: 30%; left: 20%;"></div>
+                    <div class="map-marker orange" style="top: 40%; left: 35%;"></div>
+                    <div class="map-marker green" style="top: 60%; left: 25%;"></div>
+                    <div class="map-marker red" style="top: 50%; left: 45%;"></div>
+                    <div class="map-marker purple" style="top: 35%; left: 55%;"></div>
+                    <div class="map-marker yellow" style="top: 65%; left: 40%;"></div>
+                    <div class="map-marker orange" style="top: 70%; left: 60%;"></div>
+                    <div class="map-marker green" style="top: 45%; left: 70%;"></div>
+                    <div class="map-marker red" style="top: 25%; left: 80%;"></div>
+                </div>
+                <div class="map-attribution">
+                    <span>🍃 Leaflet | © OpenStreetMap contributors</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Campus Life & Events -->
+    <section class="events-section">
+        <div class="section-header">
+            <div class="section-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <h2>Campus Life & Events</h2>
+        </div>
+        <p class="section-subtitle">Join amazing events, festivals, and activities that make SRMIST campus life memorable</p>
+        
+        <div class="events-grid">
+            <div class="event-card aaruush">
+                <div class="event-overlay">
+                    <div class="event-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>AARUUSH</h3>
+                </div>
+                <div class="event-details">
+                    <h4>Annual Tech Fest</h4>
+                    <p><i class="fas fa-calendar"></i> February 2025</p>
+                    <p><i class="fas fa-users"></i> 50,000+ Participants</p>
+                    <p><i class="fas fa-trophy"></i> ₹10 Lakhs Prize Money</p>
+                    <button class="event-btn blue">Learn More</button>
+                </div>
+            </div>
+            
+            <div class="event-card milan">
+                <div class="event-overlay">
+                    <div class="event-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3>MILAN</h3>
+                </div>
+                <div class="event-details">
+                    <h4>Cultural Extravaganza</h4>
+                    <p><i class="fas fa-calendar"></i> October 2024</p>
+                    <p><i class="fas fa-star"></i> Celebrity Performances</p>
+                    <p><i class="fas fa-calendar-alt"></i> 25+ Events</p>
+                    <button class="event-btn pink">Explore Events</button>
+                </div>
+            </div>
+            
+            <div class="event-card sports">
+                <div class="event-overlay">
+                    <div class="event-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <h3>SPORTS FIESTA</h3>
+                </div>
+                <div class="event-details">
+                    <h4>Athletic Championships</h4>
+                    <p><i class="fas fa-calendar"></i> March 2025</p>
+                    <p><i class="fas fa-university"></i> Inter-College Competitions</p>
+                    <p><i class="fas fa-running"></i> 20+ Sports Events</p>
+                    <button class="event-btn green">Register Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upcoming Events -->
+    <section class="upcoming-events">
+        <div class="section-header">
+            <div class="section-icon">
+                <i class="fas fa-calendar"></i>
+            </div>
+            <h2>Upcoming Campus Events</h2>
+        </div>
+        
+        <div class="events-list">
+            <div class="event-item">
+                <div class="event-icon-circle blue">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="event-info">
+                    <h3>Tech Symposium</h3>
+                    <p>AI & Machine Learning Conference</p>
+                    <div class="event-meta">
+                        <span><i class="fas fa-clock"></i> Today, 5:00 PM</span>
+                        <span><i class="fas fa-map-marker-alt"></i> TP Ganesan Auditorium</span>
+                    </div>
+                </div>
+                <button class="join-btn">Join Event</button>
+            </div>
+            
+            <div class="event-item">
+                <div class="event-icon-circle purple">
+                    <i class="fas fa-paint-brush"></i>
+                </div>
+                <div class="event-info">
+                    <h3>Art Exhibition</h3>
+                    <p>Student Creative Showcase</p>
+                    <div class="event-meta">
+                        <span><i class="fas fa-clock"></i> Tomorrow, 10:00 AM</span>
+                        <span><i class="fas fa-map-marker-alt"></i> Library Gallery</span>
+                    </div>
+                </div>
+                <button class="view-btn">View Details</button>
+            </div>
+            
+            <div class="event-item">
+                <div class="event-icon-circle green">
+                    <i class="fas fa-microphone"></i>
+                </div>
+                <div class="event-info">
+                    <h3>Guest Lecture Series</h3>
+                    <p>Industry Leaders Talk</p>
+                    <div class="event-meta">
+                        <span><i class="fas fa-clock"></i> Friday, 2:00 PM</span>
+                        <span><i class="fas fa-map-marker-alt"></i> SJT Building</span>
+                    </div>
+                </div>
+                <button class="register-btn">Register</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Campus News -->
+    <section class="news-section">
+        <div class="section-header">
+            <div class="section-icon">
+                <i class="fas fa-newspaper"></i>
+            </div>
+            <h2>Campus News & Updates</h2>
+        </div>
+        <p class="section-subtitle">Stay informed about the latest happenings and announcements.</p>
+        
+        <div class="news-container">
+            <div class="featured-news">
+                <div class="news-image research-bg">
+                    <span class="news-tag">ACADEMICS</span>
+                </div>
+                <div class="news-content">
+                    <h3>SRMIST Unveils New AI & Data Science Research Center</h3>
+                    <div class="news-meta">
+                        <span>By SRM Communications • October 26, 2024</span>
+                    </div>
+                    <a href="#" class="read-more">Read More →</a>
+                </div>
+            </div>
+            
+            <div class="recent-stories">
+                <h3>Recent Stories</h3>
+                <div class="story-item">
+                    <div class="story-image milan-story"></div>
+                    <div class="story-content">
+                        <span class="story-tag">CAMPUS LIFE</span>
+                        <h4>Annual Cultural Fest "Milan" Dates Announced for October</h4>
+                        <span class="story-date">October 24, 2024</span>
+                    </div>
+                </div>
+                
+                <div class="story-item">
+                    <div class="story-image cricket-story"></div>
+                    <div class="story-content">
+                        <span class="story-tag sports">SPORTS</span>
+                        <h4>Inter-University Cricket Tournament Heats Up</h4>
+                        <span class="story-date">October 22, 2024</span>
+                    </div>
+                </div>
+                
+                <div class="story-item">
+                    <div class="story-image rover-story"></div>
+                    <div class="story-content">
+                        <span class="story-tag achievements">ACHIEVEMENTS</span>
+                        <h4>SRM Rover Team Wins International Competition</h4>
+                        <span class="story-date">October 20, 2024</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <div class="footer-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>LocalAlert Pro</span>
+                </div>
+                <p>Empowering SRMIST Potheri students with AI-powered campus navigation, real-time updates, and seamless connectivity for a smarter campus experience.</p>
+            </div>
+            
+            <div class="footer-section quick-access">
+                <h3>QUICK ACCESS</h3>
+                <ul>
+                    <li><i class="fas fa-bus"></i> Transportation</li>
+                    <li><i class="fas fa-utensils"></i> Food & Dining</li>
+                    <li><i class="fas fa-map"></i> Campus Map</li>
+                </ul>
+            </div>
+            
+            <div class="footer-section support">
+                <h3>SUPPORT</h3>
+                <ul>
+                    <li class="emergency-item">
+                        <span class="sos-badge">SOS</span>
+                        <span>Emergency: 112</span>
+                    </li>
+                    <li><i class="fas fa-phone"></i> Emergency: 112</li>
+                    <li><i class="fas fa-envelope"></i> support@localalert.edu</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2025 LocalAlert Pro - SRMIST Potheri. All rights reserved.</p>
+            <p>Made with <span class="heart">❤️</span> for students.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Filter button functionality
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const mapMarkers = document.querySelectorAll('.map-marker');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    btn.classList.add('active');
+                    
+                    // Filter logic would go here
+                    const category = btn.dataset.category;
+                    console.log('Filtering by:', category);
+                });
+            });
+            
+            // Search functionality
+            const searchInput = document.querySelector('.search-input');
+            const searchBtn = document.querySelector('.search-btn');
+            
+            searchBtn.addEventListener('click', () => {
+                const query = searchInput.value;
+                if (query.trim()) {
+                    alert('Searching for: ' + query);
+                    // Search logic would go here
+                }
+            });
+            
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const query = searchInput.value;
+                    if (query.trim()) {
+                        alert('Searching for: ' + query);
+                        // Search logic would go here
+                    }
+                }
+            });
+            
+            // Map marker interactions
+            mapMarkers.forEach(marker => {
+                marker.addEventListener('click', () => {
+                    alert('Marker clicked! Location details would appear here.');
+                    // Show marker details
+                });
+            });
+            
+            // Category item clicks
+            const categoryItems = document.querySelectorAll('.category-item');
+            categoryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const categoryName = item.querySelector('span').textContent;
+                    alert('Navigating to ' + categoryName + ' section');
+                });
+            });
+            
+            // Event button clicks
+            const eventBtns = document.querySelectorAll('.event-btn, .join-btn, .view-btn, .register-btn');
+            eventBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    alert(btn.textContent + ' clicked!');
+                });
+            });
         });
-    });
-}
-
-
-}); // End of DOMContentLoaded
-
-// Modal Functions
-function showLocationModal(name, coords, details, timing, price, category) {
-currentLocationData = { name, coords, details, timing, price, category };
-
-document.getElementById('modal-title').textContent = name;
-document.getElementById('modal-details').textContent = details;
-document.getElementById('modal-timing').textContent = timing;
-document.getElementById('modal-price').textContent = price;
-document.getElementById('modal-coords').textContent = `Coordinates: ${coords}`;
-
-const modal = document.getElementById('location-modal');
-modal.classList.remove('hidden');
-modal.classList.add('flex');
-}
-
-function closeLocationModal() {
-const modal = document.getElementById('location-modal');
-modal.classList.add('hidden');
-modal.classList.remove('flex');
-}
-
-// Google Maps Integration
-function openGoogleMaps() {
-const coords = currentLocationData.coords;
-const name = currentLocationData.name;
-const [lat, lng] = coords.split(',');
-
-const googleMapsUrl = `https://maps.google.com/maps/dir/?api=1&destination=${lat},${lng}&destination_place_id=${encodeURIComponent(name + ', SRMIST Potheri')}&travelmode=walking`;
-window.open(googleMapsUrl, '_blank');
-}
-
-// Share Location Function
-function shareLocation() {
-const name = currentLocationData.name;
-const coords = currentLocationData.coords;
-const shareData = {
-title: name + ' - SRMIST Potheri',
-text: `Check out ${name} location on SRMIST Potheri campus`,
-url: `https://maps.google.com/maps?q=${coords}`
-};
-
-if (navigator.share) {
-navigator.share(shareData);
-} else {
-// Fallback - copy to clipboard
-navigator.clipboard.writeText(`${name} - ${shareData.url}`).then(() => {
-alert('Location link copied to clipboard!');
-});
-}
-}
-
-// Close modals when clicking outside
-document.addEventListener('click', function(event) {
-const locationModal = document.getElementById('location-modal');
-const imageModal = document.getElementById('image-modal');
-if (event.target === locationModal) {
-closeLocationModal();
-}
-if (event.target === imageModal) {
-closeImageModal();
-}
-});
-
-// Search functionality
-const searchInput = document.getElementById('main-search');
-if (searchInput) {
-searchInput.addEventListener('keypress', function(e) {
-if (e.key === 'Enter') {
-const query = this.value.toLowerCase();
-// Simple search implementation
-console.log('Searching for:', query);
-}
-});
-}
-</script>
+    </script>
 </body>
 </html>
